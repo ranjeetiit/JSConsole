@@ -43,7 +43,6 @@
 	function Controller(view ,model){
 		this.view = view;
 		this.model = model;
-		this.currentHistory = "";
 		this.historyState = this.model.cmdHistory.length;
 	}
 
@@ -60,17 +59,17 @@
 
 
 	Controller.prototype.inputKeydown = function(e){
+		var currentHistory = ""
 		if (e.which === 13) {
 			var val = e.target.value;
 			e.preventDefault();
 			// Need to HAndle Shift + Enter
 			if ( e.shiftKey ) {
-				this.currentHistory = val + "\n";
-				this.updtateInputVal(this.currentHistory);
+				currentHistory = val + "\n";
+				this.updtateInputVal(currentHistory);
 			}else{
 				this.evaluate( val );
 				this.updtateInputVal("");
-				this.currentHistory = "";
 			}
 			return false;
 		}
@@ -92,8 +91,8 @@
 			} 
 			
 			// Update the currentHistory value and update the View
-			this.currentHistory = history[this.historyState] ? history[this.historyState].command : "";
-			this.updtateInputVal(this.currentHistory);
+			currentHistory = history[this.historyState] ? history[this.historyState].command : "";
+			this.updtateInputVal(currentHistory);
 			return false;
 		}
 
