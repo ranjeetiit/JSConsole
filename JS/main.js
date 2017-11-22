@@ -8,6 +8,7 @@
 							'<div>'+
 							'<span class="prefix">&gt;&nbsp;</span>'+
 							'<span class={resultType}>{result}</span>';
+		this.ifrmaeWindow = document.getElementById("ifrmaeWindow");
 	}
 
 	View.prototype.updateOutput = function(item){
@@ -44,6 +45,7 @@
 		this.view = view;
 		this.model = model;
 		this.historyState = this.model.cmdHistory.length;
+		this.contentWindowRef = this.view.ifrmaeWindow ? this.view.ifrmaeWindow.contentWindow : window;
 	}
 
 	Controller.prototype.setView = function(){
@@ -56,7 +58,6 @@
 	Controller.prototype.inputKeyup = function(e){
 	
 	} 
-
 
 	Controller.prototype.inputKeydown = function(e){
 		var currentHistory = ""
@@ -114,9 +115,8 @@
 		var item = {
 			command : cmd
 		};
-
 		try {
-			item.result = eval.call(window, cmd);
+			item.result = this.contentWindowRef.eval(cmd);
 			if ( _.isUndefined(item.result) ){
 				item._class = "undefined";	
 			} else if ( _.isNumber(item.result) ){
