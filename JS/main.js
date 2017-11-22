@@ -21,6 +21,7 @@
 		div.innerHTML = html;
 		fragemnt.appendChild(div)
 		this.outputContainer.appendChild(fragemnt);
+		this.outputContainer.scrollTop = this.outputContainer.scrollHeight;
 	}
 
 	function Model(){
@@ -59,10 +60,9 @@
 
 
 	Controller.prototype.inputKeydown = function(e){
-		e.preventDefault();
 		if (e.which === 13) {
 			var val = e.target.value;
-
+			e.preventDefault();
 			// Need to HAndle Shift + Enter
 			if ( e.shiftKey ) {
 				this.currentHistory = val + "\n";
